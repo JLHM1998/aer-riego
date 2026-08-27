@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Área Experimental de Riego · AER</title>
+  <meta name="description" content="Visor interactivo del experimento de riego por déficit controlado (ETc) en maíz morado — 16 lisímetros sobre ortomosaico de dron, UNALM La Molina." />
+  <meta name="theme-color" content="#f7f4ef" />
+  <link rel="icon" href="img/logo_tyc.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@500;600&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="vendor/leaflet/leaflet.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-logos">
+      <img src="img/escudo_blason.png" alt="Escudo UNALM" class="logo-unalm" />
+      <img src="img/logo_tyc.svg" alt="Grupo TyC UNALM" class="logo-tyc" />
+    </div>
+    <div class="topbar-text">
+      <p class="eyebrow">UNALM · La Molina, Lima</p>
+      <h1>Área Experimental de Riego</h1>
+      <p class="subtitle">Teledetección y Cambio Climático aplicado a la Agricultura y Recursos Hídricos</p>
+    </div>
+    <button id="btn-info" class="btn-round" aria-label="Acerca del experimento" title="Acerca del experimento">i</button>
+  </header>
+
+  <main id="map" aria-label="Mapa del área experimental"></main>
+
+  <!-- Leyenda de tratamientos -->
+  <nav class="legend" aria-label="Leyenda de tratamientos">
+    <p class="legend-title">Tratamientos <span class="legend-hint">— toca para resaltar</span></p>
+    <div class="legend-chips" id="legend-chips"></div>
+    <div class="legend-layers">
+      <label class="layer-toggle"><input type="checkbox" id="chk-vuelo" /> Ruta de vuelo</label>
+      <label class="layer-toggle"><input type="checkbox" id="chk-camaras" /> Fotos (84)</label>
+    </div>
+  </nav>
+
+  <!-- Ficha estilo letrero de campo -->
+  <section id="sheet" class="sheet" role="dialog" aria-modal="false" aria-label="Ficha del lisímetro" hidden>
+    <div class="sheet-grab" id="sheet-grab"></div>
+    <article class="placard">
+      <p class="placard-project"><strong>Proyecto:</strong><br />Determinación del efecto de diferentes estrategias de riego sobre la acumulación de antocianinas en maíz morado (Pop&nbsp;Corn).</p>
+      <div class="placard-body">
+        <p>Unidad Experimental: <span id="f-unidad"></span></p>
+        <p>TRATAMIENTO: <span id="f-trat"></span></p>
+        <p>REPETICIÓN: <span id="f-rep"></span></p>
+        <p class="placard-code">CÓDIGO: <span id="f-codigo"></span><span id="f-dot" class="dot" aria-hidden="true"></span></p>
+      </div>
+      <p class="placard-meta" id="f-meta"></p>
+      <div class="sheet-actions">
+        <button id="btn-zoom" class="btn-primary">Acercar al lisímetro</button>
+        <button id="btn-close" class="btn-ghost">Cerrar</button>
+      </div>
+    </article>
+  </section>
+
+  <!-- Acerca del experimento -->
+  <section id="about" class="modal" role="dialog" aria-modal="true" aria-label="Acerca del experimento" hidden>
+    <div class="modal-card">
+      <button id="btn-about-close" class="btn-round modal-close" aria-label="Cerrar">×</button>
+      <img src="img/escudo_unalm.png" alt="Universidad Nacional Agraria La Molina" class="modal-lockup" />
+      <p class="eyebrow">El experimento</p>
+      <h2>Riego por déficit controlado en maíz morado</h2>
+      <p>Se evalúa el efecto de <strong>cuatro láminas de riego</strong> —60&nbsp;%, 80&nbsp;%, 100&nbsp;% y 120&nbsp;% de la evapotranspiración del cultivo (ETc)— sobre la <strong>acumulación de antocianinas</strong> en maíz morado (<em>Pop&nbsp;Corn</em>). Cada tratamiento se aplica en <strong>4 repeticiones</strong> distribuidas en 16 lisímetros circulares, con surcos de siembra dentro de cada uno. Junto al área opera una <strong>estación meteorológica</strong> que provee los datos para calcular la ETc.</p>
+      <div class="about-treats" id="about-treats"></div>
+      <p class="eyebrow">El ortomosaico</p>
+      <p>Fondo generado por <strong>fotogrametría con dron</strong> el 25-08-2026: DJI Lito&nbsp;X1 a 18&nbsp;m sobre el terreno, 84 fotos (48&nbsp;MP), solape 80/80&nbsp;%, plan de vuelo Litchi Hub de 249 waypoints, procesado en <strong>WebODM</strong> a 1&nbsp;cm/píxel (GSD real 0.29&nbsp;cm/px, EPSG:32718).</p>
+      <div class="about-footer">
+        <img src="img/logo_tyc.svg" alt="Grupo TyC UNALM" class="about-tyc" />
+        <p class="about-credit">Grupo de investigación <strong>Teledetección y Cambio Climático aplicado a la
+        Agricultura y Recursos Hídricos</strong> — UNALM.<br />Ing. José Luis Huanuqueño Murillo · 2026</p>
+      </div>
+    </div>
+  </section>
+
+  <script src="vendor/leaflet/leaflet.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
