@@ -118,7 +118,7 @@
     setTimeout(function () { if (!sheet.classList.contains("open")) sheet.hidden = true; }, 300);
   }
 
-  var DATA_V = "?v=3"; // subir al cambiar los datos, evita caché vieja en el celular
+  var DATA_V = "?v=4"; // subir al cambiar los datos, evita caché vieja en el celular
   fetch("data/lisimetros.geojson" + DATA_V)
     .then(function (r) { return r.json(); })
     .then(function (gj) {
