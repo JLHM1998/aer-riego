@@ -69,10 +69,18 @@
 
   function actualizarEtiquetas() {
     Object.keys(capas).forEach(function (code) {
-      var tt = capas[code].getTooltip();
+      var capa = capas[code];
+      var tt = capa.getTooltip();
       var el = tt && tt.getElement();
       if (!el) return;
-      var visible = !enfocado || enfocado === code;
+      var visible;
+      if (enfocado) {
+        visible = enfocado === code;
+      } else if (filtro) {
+        visible = capa.feature.properties.tratamiento === filtro;
+      } else {
+        visible = true;
+      }
       el.style.opacity = visible ? "1" : "0";
       el.classList.toggle("lis-label-foco", enfocado === code);
     });
@@ -146,6 +154,28 @@
       conteo[f.properties.tratamiento] = (conteo[f.properties.tratamiento] || 0) + 1;
     });
     var cont = document.getElementById("legend-chips");
+    var chips = {};
+
+    function seleccionarFiltro(k) {
+      filtro = k; // null = todos
+      Object.keys(chips).forEach(function (key) {
+        var activo = (key === "todos" && !filtro) || key === filtro;
+        chips[key].classList.toggle("active", activo);
+        chips[key].setAttribute("aria-pressed", activo ? "true" : "false");
+      });
+      capaLis.setStyle(estilo);
+      actualizarEtiquetas();
+    }
+
+    var todos = document.createElement("button");
+    todos.className = "chip chip-todos active";
+    todos.style.setProperty("--chip", "#3b1f47");
+    todos.innerHTML = "<span class='dot dot-todos'></span>Todos";
+    todos.setAttribute("aria-pressed", "true");
+    todos.addEventListener("click", function () { seleccionarFiltro(null); });
+    chips.todos = todos;
+    cont.appendChild(todos);
+
     ["T1", "T2", "T3", "T4"].forEach(function (k) {
       var t = TRATAMIENTOS[k];
       var b = document.createElement("button");
@@ -154,15 +184,9 @@
       b.innerHTML = "<span class='dot'></span>" + k + " · " + t.pct + "%";
       b.setAttribute("aria-pressed", "false");
       b.addEventListener("click", function () {
-        filtro = (filtro === k) ? null : k;
-        document.querySelectorAll(".chip").forEach(function (c) {
-          var esta = c === b && filtro === k;
-          c.classList.toggle("active", esta);
-          c.classList.toggle("dimmed", filtro !== null && !esta);
-          c.setAttribute("aria-pressed", esta ? "true" : "false");
-        });
-        capaLis.setStyle(estilo);
+        seleccionarFiltro(filtro === k ? null : k);
       });
+      chips[k] = b;
       cont.appendChild(b);
     });
 

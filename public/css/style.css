@@ -136,7 +136,11 @@ body {
 .chip .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--chip); }
 .chip.active { background: var(--chip); color: #fff; }
 .chip.active .dot { background: #fff; }
-.chip.dimmed { opacity: 0.38; }
+.chip .dot-todos,
+.chip.active .dot-todos {
+  background: conic-gradient(#2f9e4f 0 25%, #2b62c9 0 50%, #f0b400 0 75%, #e03c2f 0);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+}
 .chip:active { transform: scale(0.95); }
 .legend-layers {
   display: flex; gap: 12px; margin-top: 8px; padding-top: 8px;
